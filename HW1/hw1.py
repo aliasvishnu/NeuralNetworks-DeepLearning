@@ -14,3 +14,4 @@ testY = np.array(mndata.load_testing()[1])[:2000]
 
 
 # Begin softmax here, do not change trainX, trainY, testY, testX
+#okay BOSS :*
