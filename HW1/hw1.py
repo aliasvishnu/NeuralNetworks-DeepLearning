@@ -39,3 +39,4 @@ for i in range(100):
 print trnY != y
 
 # Begin softmax here, do not change trainX, trainY, testY, testX
+
