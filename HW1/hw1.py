@@ -11,32 +11,37 @@ testY = np.array(mndata.load_testing()[1])[:2000]
 
 # Logistic Regression Portion
 def sigmoid(x):
-    return 1/1+np.exp(-1*x)
+    return 1.0/(1+np.exp(-1*np.array(x)))
 
 def feat(id):
     return [1] + trainX[id].tolist()
 
 def error(trnY, y):
-    err = 0
+    err = 0    
     for i in range(len(trnY)):
-        err += trnY[i]*math.log(y[i]) if y[i] != 0 else 0
-        err += (1-trnY[i])*math.log(1-y[i]) if y[i] != 1 else 0
+    	if(y[i] < 0.00001):
+    		y[i] = 0.00001
+    	elif(y[i] > 0.99999):
+    		y[i] = 0.99999
+        err += trnY[i]*np.log(y[i])
+        err += (1-trnY[i])*np.log(1-y[i])
     return err/len(trnY)
 
 
 trnX = np.array([feat(i) for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])/256.0
-trnY = np.array([trainY[i]-2 for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])
+trnY = np.array([1 if trainY[i] == 2 else 0 for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])
+tstX = np.array([feat(i) for i in range(testX.shape[0]) if testY[i] == 2 or testY[i] == 3])/256.0
+tstY = np.array([1 if testY[i] == 2 else 0 for i in range(testX.shape[0]) if testY[i] == 2 or testY[i] == 3])
 
-w = np.random.rand(785)/1000
 
-lr = 0.001
-for i in range(100):
+w = np.random.rand(785)-0.5
+print  "-1, Test::", error(tstY, sigmoid(np.dot(tstX, w)))
+
+lr = 0.0001
+for i in range(15):
     y = sigmoid(np.dot(trnX, w))
     grad = np.dot((trnY-y), trnX)
-    w = w - grad
-    print i, "::", error(trnY, y)
-
-print trnY != y
-
-# Begin softmax here, do not change trainX, trainY, testY, testX
+    w = w + lr*grad
+    b = sigmoid(np.dot(trnX, w))
+    print np.linalg.norm(tstY - sigmoid(np.dot(tstX, w))),"::", error(tstY, sigmoid(np.dot(tstX, w)))
 
