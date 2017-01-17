@@ -30,6 +30,12 @@ def error(trnY, y):
 
 trnX = np.array([feat(i) for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])/256.0
 trnY = np.array([1 if trainY[i] == 2 else 0 for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])
+valIndices = np.random.choice(len(trnX), 2000)
+valX = trnX[valIndices]
+valY = trnY[valIndices]
+nonValIndices = [x for x in range(len(trnX)) if x not in valIndices]
+trnX = trnX[nonValIndices]
+trnY = trnY[nonValIndices]
 tstX = np.array([feat(i) for i in range(testX.shape[0]) if testY[i] == 2 or testY[i] == 3])/256.0
 tstY = np.array([1 if testY[i] == 2 else 0 for i in range(testX.shape[0]) if testY[i] == 2 or testY[i] == 3])
 
