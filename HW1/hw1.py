@@ -51,6 +51,9 @@ count = 0
 trn_losses = []
 tst_losses = []
 val_losses = []
+trn_acc = []
+tst_acc = []
+val_acc = []
 
 lr = 0.001
 for i in range(10000):
@@ -61,6 +64,9 @@ for i in range(10000):
 	val_losses.append(los)
 	tst_losses.append(error(tstY, sigmoid(np.dot(tstX, w))))
 	trn_losses.append(error(trnY, sigmoid(np.dot(trnX, w))))
+	trn_acc.append(np.mean(np.abs(trnY - np.round(sigmoid(np.dot(trnX, w))))))
+	tst_acc.append(np.mean(np.abs(tstY - np.round(sigmoid(np.dot(tstX, w))))))
+	val_acc.append(np.mean(np.abs(valY - np.round(sigmoid(np.dot(valX, w))))))
 	print "[Classification error = ", np.mean(np.abs(valY - prediction)),", Loss = ", los, "]"
 	if los >= prev_los:
 		prev_los = los
@@ -85,8 +91,23 @@ tst_prediction[tst_prediction > 0.5] = 1
 tst_prediction[tst_prediction <= 0.5] = 0
 print "[Classification error = ", np.mean(np.abs(tstY - tst_prediction)),", Loss = ", tst_cost, "]"
 
+trn_acc = np.array(trn_acc)
+tst_acc = np.array(tst_acc)
+val_acc = np.array(val_acc)
 plt.plot([x for x in range(0, len(trn_losses))], trn_losses, label = "train")
 plt.plot([x for x in range(0, len(tst_losses))], tst_losses, label = "test")
 plt.plot([x for x in range(0, len(val_losses))], val_losses, label = "validation")
+plt.xlabel("Iterations")
+plt.ylabel("Entropy")
 plt.legend(loc='upper right', shadow=True)
+plt.show()
+plt.plot([x for x in range(0, len(trn_acc))], (1-trn_acc)*100, label = "train")
+plt.plot([x for x in range(0, len(tst_acc))], (1-tst_acc)*100, label = "test")
+plt.plot([x for x in range(0, len(val_acc))], (1-val_acc)*100, label = "validation")
+plt.xlabel("Iterations")
+plt.ylabel("Classification Accuracy")
+plt.legend(loc='lower right', shadow=True)
+plt.show()
+
+plt.imshow(eightimg, cmap= 'Greys')
 plt.show()
