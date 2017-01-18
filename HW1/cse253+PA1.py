@@ -96,9 +96,9 @@ for i in range(10):
     w = w + lr*grad
 
 w_f = w_past[0]
-print "Final testing error = ", err[1, -3]
-print "Final training error = ", err[0, -3]
-print "Final validation error = ", err[2, -3]
+print "Final testing error = ", err[1][-3]
+print "Final training error = ", err[0][-3]
+print "Final validation error = ", err[2][-3]
 
 plt.plot([x for x in range(len(err[0]))], err[0], label = "train")
 plt.plot([x for x in range(len(err[1]))], err[1], label = "test")
