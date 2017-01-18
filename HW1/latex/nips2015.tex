@@ -2,10 +2,12 @@
 \usepackage{nips15submit_e,times}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{graphicx}
+\usepackage{amsfonts}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
-\title{Logistic and Softmax Regression}
+\title{Handwritten Digits Classification using Logistic and Softmax Regression}
 
 
 \author{
@@ -37,7 +39,7 @@ A53201624 \\
 
 \maketitle
 \begin{abstract}
-Here in this project we have implemented the famous Logistic Regression which is a two class classifier and its extension Softmax Regression which is a multiclass classifier. Both of these methods are trained and tested on famous handwritten MNIST dataset. We used the first 20000 data points as our training set out of which we have kept the 10 percent i.e. 2000 as our hold out set. On training our system we have tested on the first 2000 test data points so as to evaluate our work. On using the Logistic Regression, we have attained an accuracy of " " while classifying 2 vs 3 and an accuracy " " while classifying 2 vs 8. On applying 10 way classification, we get an accuracy of " ". To enhance classification and generalization we have used regularization as well. 
+Here in this project we have implemented the famous Logistic Regression which is a two class classifier and its extension Softmax Regression which is a multiclass classifier. Both of these methods are trained and tested on famous handwritten MNIST dataset via gradient descent. We used the first 20000 data points as our training set out of which we have kept the 10 percent i.e. 2000 as our hold out set. On training our system we have tested on the first 2000 test data points so as to evaluate our work. On using the Logistic Regression, we have attained an accuracy of " " while classifying 2 vs 3 and an accuracy " " while classifying 2 vs 8. On applying 10 way classification, we get an accuracy of " ". To enhance classification and generalization we have used regularization as well. 
 \end{abstract}
 
 \section{Keywords}
@@ -47,107 +49,110 @@ Here in this project we have implemented the famous Logistic Regression which is
 Neural Networks, Logistic Regression, Softmax Regression
 \end{verbatim}
 \section{Logistic Regression}
-
-NIPS requires electronic submissions.  The electronic submission site is  
+Although we consider logistic regression to be a classification technique, it is called "regression" because it is used to fit a continuous variable: the probability of the category, given the data. Logistic regression can be modeled as using a single neuron reading in an input vector (1,{\sl x}) $\in \mathbb{R}^{d+1}$ and parameterized by weight vector {\sl w} $\in \mathbb{R}^{d+1}$ . d is the dimensionality of the input, and we tack on a "1" at the beginning for a bias parameter, $w_0$ . The neuron outputs the probability that x is a member of class $C_1$.\\
 \begin{center}
-   \url{http://papers.nips.cc}
+P $(x \in C_1 |x) = \frac{1}{1+exp(-w^T x)}$\\
+P $(x \in C_2 |x)$ = 1 − P$(x \in C_1 |x)$
 \end{center}
-
-Please read carefully the
-instructions below, and follow them faithfully.
-
+where g w (x) simply notes that the function g is parameterized by w. Note we identify the output y n of the "network"
+for a particular example, x n , with g w (x n ), i.e., y n = g w (x n ). With the hypothesis function defined, we now use
+the cross entropy loss function (Equation 3) for two categories over our training examples. This equation measures
+how well our hypothesis function g does over the N data points,
+E(w) = −
+N
+X
+{t n ln y n + (1 − t n ) ln(1 − y n )}.
+(3)
+n=1
+Here, t n is the target or teaching signal for example n. Our goal is to optimize this cost function via gradient
+descent. This cost function is minimized at 0 when t n = y n for all n. One issue with this cost function is that it
+depends on the number of training examples. For reporting purposes in this assignment, a more convenient measure
+is the average error:
+E(w) = −
+N
+1 X n
+{t ln y n + (1 − t n ) ln(1 − y n )}.
 \subsection{Introduction}
-\subsection{Retrieval of style files}
+Using the gradient derived for Logistic Regression cross entropy loss, we will first use gradient descent to classify for categories: 2's and 3's, 2's and 8's.  
+
+Now, using the gradient derived for Logistic Regression cross entropy loss, use gradient descent to classify x ∈ R 785 (there is one extra dimension for the bias term) for two categories: 2’s and 3’s. The target is 1 if the input is from the "2" category and 0 if it is from the other category. 
 \subsection{Method}
-\subsection{Results}
+\subsection{Results and Discussion}
+
+We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 data set and the results are found to be quite impressive. Following are the graphs plotted for them. Figure 1 and 2 shows the entropy and classification accuracy of 2 vs 3
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{plt_2vs3_accuracy.png}
+\end{center}
+\caption{Plot of accuracy in 2 vs 3.}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{plt_2vs3_losses.png}
+\end{center}
+\caption{Plot of entropy in 2 vs 3.}
+\end{figure}
+
 \begin{figure}[h]
 \begin{center}
 %\framebox[4.0in]{$\;$}
-\fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
+\includegraphics[width=0.8\linewidth]{plt_2vs8_accuracy.png}
 \end{center}
-\caption{Sample figure caption.}
+\caption{Plot of accuracy in 2 vs 8.}
 \end{figure}
 
-\subsection{Discussion}
-
-\section{Softmax Regression}
-\subsection{Introduction}
-\subsection{Retrieval of style files}
-\subsection{Method}
-\subsection{Results}
-\subsection{Discussion}
-
-\section{Headings: first level}
-\label{headings}
-
-First level headings are lower case (except for first word and proper nouns),
-flush left, bold and in point size 12. One line space before the first level
-heading and 1/2~line space after the first level heading.
-
-\subsection{Headings: second level}
-
-Second level headings are lower case (except for first word and proper nouns),
-flush left, bold and in point size 10. One line space before the second level
-heading and 1/2~line space after the second level heading.
-
-\subsubsection{Headings: third level}
-
-Third level headings are lower case (except for first word and proper nouns),
-flush left, bold and in point size 10. One line space before the third level
-heading and 1/2~line space after the third level heading.
-
-\section{Citations, figures, tables, references}
-\label{others}
-
-These instructions apply to everyone, regardless of the formatter being used.
-
-\subsection{Citations within the text}
-
-Citations within the text should be numbered consecutively. The corresponding
-number is to appear enclosed in square brackets, such as [1] or [2]-[5]. The
-corresponding references are to be listed in the same order at the end of the
-paper, in the \textbf{References} section. (Note: the standard
-\textsc{Bib\TeX} style \texttt{unsrt} produces this.) As to the format of the
-references themselves, any style is acceptable as long as it is used
-consistently.
-
-As submission is double blind, refer to your own published work in the 
-third person. That is, use ``In the previous work of Jones et al.\ [4]'',
-not ``In our previous work [4]''. If you cite your other papers that
-are not widely available (e.g.\ a journal paper under review), use
-anonymous author names in the citation, e.g.\ an author of the
-form ``A.\ Anonymous''. 
-
-
-\subsection{Footnotes}
-
-Indicate footnotes with a number\footnote{Sample of the first footnote} in the
-text. Place the footnotes at the bottom of the page on which they appear.
-Precede the footnote with a horizontal rule of 2~inches
-(12~picas).\footnote{Sample of the second footnote}
-
-\subsection{Figures}
-
-All artwork must be neat, clean, and legible. Lines should be dark
-enough for purposes of reproduction; art work should not be
-hand-drawn. The figure number and caption always appear after the
-figure. Place one line space before the figure caption, and one line
-space after the figure. The figure caption is lower case (except for
-first word and proper nouns); figures are numbered consecutively.
-
-Make sure the figure caption does not get separated from the figure.
-Leave sufficient space to avoid splitting the figure and figure caption.
-
-You may use color figures. 
-However, it is best for the
-figure captions and the paper body to make sense if the paper is printed
-either in black/white or in color.
 \begin{figure}[h]
 \begin{center}
-\fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
+%\framebox[4.0in]{$\;$}
+\includegraphics[width=0.8\linewidth]{plt_2vs8_losses.png}
+\end{center}
+\caption{Plot of losses in 2 vs 8.}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+%\framebox[4.0in]{$\;$}
+\includegraphics[width=0.8\linewidth]{2vs3-2vs8.png}
 \end{center}
 \caption{Sample figure caption.}
 \end{figure}
+
+\begin{figure}[h]
+\begin{center}
+%\framebox[4.0in]{$\;$}
+\includegraphics[width=\linewidth]{2vs3.png}
+\end{center}
+\caption{Sample figure caption.}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\linewidth]{2vs8.png}
+\end{center}
+\caption{Sample figure caption.}
+\end{figure}
+
+\section{Softmax Regression}
+Softmax regression is the generalization of logistic regression for multiple (c) classes. Now given an input $x^n$ , softmax regression will output a vector $y^n$ , where each element, $y_k^n$ represents the probability that $x^n$ is in class k.\\
+\begin{center}
+$y_k^n = \frac{exp(a_{k}^n)}{\sum_k' exp(a_k'^n)}$\\
+$a_{k}^n = w_k^T x^n$\\
+\end{center}
+
+Here, $a_{k}^n$ is called the net input to output unit $y_k$. Note each output has its own weight vector $w_k$ . With our model defined, we now define the cross-entropy cost function for multiple categories:
+\begin{center}
+$E = −\sum_n \sum_{k=1}^{c} t^n_k ln(y_k^n)$
+\end{center}
+
+Again, taking the average of this over the number of training examples normalizes this error over different training set sizes.
+
+Further information is distributed as section 3.1 contains the introduction to the problem, section 3.2 contains method used to solve the problem. Results ans Discussion is done in section 3.3 and 3.4 respectively.\\ 
+\subsection{Introduction}
+In this part of the problem, we have created a multi-class classifier which classifies a data point into 10 different classes. 
+\subsection{Method}
+\subsection{Results and Discussion}
 
 \subsection{Tables}
 
@@ -173,158 +178,4 @@ Soma             &Cell body (contains cell nucleus) \\
 \end{center}
 \end{table}
 
-\section{Final instructions}
-Do not change any aspects of the formatting parameters in the style files.
-In particular, do not modify the width or length of the rectangle the text
-should fit into, and do not change font sizes (except perhaps in the
-\textbf{References} section; see below). Please note that pages should be
-numbered.
-
-\section{Preparing PostScript or PDF files}
-
-Please prepare PostScript or PDF files with paper size ``US Letter'', and
-not, for example, ``A4''. The -t
-letter option on dvips will produce US Letter files.
-
-Fonts were the main cause of problems in the past years. Your PDF file must
-only contain Type 1 or Embedded TrueType fonts. Here are a few instructions
-to achieve this.
-
-\begin{itemize}
-
-\item You can check which fonts a PDF files uses.  In Acrobat Reader,
-select the menu Files$>$Document Properties$>$Fonts and select Show All Fonts. You can
-also use the program \verb+pdffonts+ which comes with \verb+xpdf+ and is
-available out-of-the-box on most Linux machines.
-
-\item The IEEE has recommendations for generating PDF files whose fonts
-are also acceptable for NIPS. Please see
-\url{http://www.emfield.org/icuwb2010/downloads/IEEE-PDF-SpecV32.pdf}
-
-\item LaTeX users:
-
-\begin{itemize}
-
-\item Consider directly generating PDF files using \verb+pdflatex+
-(especially if you are a MiKTeX user). 
-PDF figures must be substituted for EPS figures, however.
-
-\item Otherwise, please generate your PostScript and PDF files with the following commands:
-\begin{verbatim} 
-dvips mypaper.dvi -t letter -Ppdf -G0 -o mypaper.ps
-ps2pdf mypaper.ps mypaper.pdf
-\end{verbatim}
-
-Check that the PDF files only contains Type 1 fonts. 
-%For the final version, please send us both the Postscript file and
-%the PDF file. 
-
-\item xfig "patterned" shapes are implemented with 
-bitmap fonts.  Use "solid" shapes instead. 
-\item The \verb+\bbold+ package almost always uses bitmap
-fonts.  You can try the equivalent AMS Fonts with command
-\begin{verbatim}
-\usepackage[psamsfonts]{amssymb}
-\end{verbatim}
- or use the following workaround for reals, natural and complex: 
-\begin{verbatim}
-\newcommand{\RR}{I\!\!R} %real numbers
-\newcommand{\Nat}{I\!\!N} %natural numbers 
-\newcommand{\CC}{I\!\!\!\!C} %complex numbers
-\end{verbatim}
-
-\item Sometimes the problematic fonts are used in figures
-included in LaTeX files. The ghostscript program \verb+eps2eps+ is the simplest
-way to clean such figures. For black and white figures, slightly better
-results can be achieved with program \verb+potrace+.
-\end{itemize}
-\item MSWord and Windows users (via PDF file):
-\begin{itemize}
-\item Install the Microsoft Save as PDF Office 2007 Add-in from
-\url{http://www.microsoft.com/downloads/details.aspx?displaylang=en\&familyid=4d951911-3e7e-4ae6-b059-a2e79ed87041}
-\item Select ``Save or Publish to PDF'' from the Office or File menu
-\end{itemize}
-\item MSWord and Mac OS X users (via PDF file):
-\begin{itemize}
-\item From the print menu, click the PDF drop-down box, and select ``Save
-as PDF...''
-\end{itemize}
-\item MSWord and Windows users (via PS file):
-\begin{itemize}
-\item To create a new printer
-on your computer, install the AdobePS printer driver and the Adobe Distiller PPD file from
-\url{http://www.adobe.com/support/downloads/detail.jsp?ftpID=204} {\it Note:} You must reboot your PC after installing the
-AdobePS driver for it to take effect.
-\item To produce the ps file, select ``Print'' from the MS app, choose
-the installed AdobePS printer, click on ``Properties'', click on ``Advanced.''
-\item Set ``TrueType Font'' to be ``Download as Softfont''
-\item Open the ``PostScript Options'' folder
-\item Select ``PostScript Output Option'' to be ``Optimize for Portability''
-\item Select ``TrueType Font Download Option'' to be ``Outline''
-\item Select ``Send PostScript Error Handler'' to be ``No''
-\item Click ``OK'' three times, print your file.
-\item Now, use Adobe Acrobat Distiller or ps2pdf to create a PDF file from
-the PS file. In Acrobat, check the option ``Embed all fonts'' if
-applicable.
-\end{itemize}
-
-\end{itemize}
-If your file contains Type 3 fonts or non embedded TrueType fonts, we will
-ask you to fix it. 
-
-\subsection{Margins in LaTeX}
- 
-Most of the margin problems come from figures positioned by hand using
-\verb+\special+ or other commands. We suggest using the command
-\verb+\includegraphics+
-from the graphicx package. Always specify the figure width as a multiple of
-the line width as in the example below using .eps graphics
-\begin{verbatim}
-   \usepackage[dvips]{graphicx} ... 
-   \includegraphics[width=0.8\linewidth]{myfile.eps} 
-\end{verbatim}
-or % Apr 2009 addition
-\begin{verbatim}
-   \usepackage[pdftex]{graphicx} ... 
-   \includegraphics[width=0.8\linewidth]{myfile.pdf} 
-\end{verbatim}
-for .pdf graphics. 
-See section 4.4 in the graphics bundle documentation (\url{http://www.ctan.org/tex-archive/macros/latex/required/graphics/grfguide.ps}) 
- 
-A number of width problems arise when LaTeX cannot properly hyphenate a
-line. Please give LaTeX hyphenation hints using the \verb+\-+ command.
-
-
-\subsubsection*{Acknowledgments}
-
-Use unnumbered third level headings for the acknowledgments. All
-acknowledgments go at the end of the paper. Do not include 
-acknowledgments in the anonymized submission, only in the 
-final paper. 
-
-\subsubsection*{References}
-
-References follow the acknowledgments. Use unnumbered third level heading for
-the references. Any choice of citation style is acceptable as long as you are
-consistent. It is permissible to reduce the font size to `small' (9-point) 
-when listing the references. {\bf Remember that this year you can use
-a ninth page as long as it contains \emph{only} cited references.}
-
-\small{
-[1] Alexander, J.A. \& Mozer, M.C. (1995) Template-based algorithms
-for connectionist rule extraction. In G. Tesauro, D. S. Touretzky
-and T.K. Leen (eds.), {\it Advances in Neural Information Processing
-Systems 7}, pp. 609-616. Cambridge, MA: MIT Press.
-
-[2] Bower, J.M. \& Beeman, D. (1995) {\it The Book of GENESIS: Exploring
-Realistic Neural Models with the GEneral NEural SImulation System.}
-New York: TELOS/Springer-Verlag.
-
-[3] Hasselmo, M.E., Schnell, E. \& Barkai, E. (1995) Dynamics of learning
-and recall at excitatory recurrent synapses and cholinergic modulation
-in rat hippocampal region CA3. {\it Journal of Neuroscience}
-{\bf 15}(7):5249-5262.
-}
-
 \end{document}
-
