@@ -28,9 +28,9 @@ def error(trnY, y, lamda):
         err += (1-trnY[i])*np.log(1-y[i])
     err = -1*err/len(trnY)
     # L2 regularization
-    # err += lamda * np.linalg.norm(w)**2
+    err += lamda * np.linalg.norm(w)**2
     # L1 regularization
-    err += lamda * np.sum(np.abs(w))
+    # err += lamda * np.sum(np.abs(w))
     return err
 
 trnX = np.array([feat(trainX, i) for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])/256.0
@@ -96,9 +96,9 @@ for lamda in lamdas:
 		
 		grad = np.dot((trnY-y), trnX)
 		# L2
-		# grad += 2*lamda*w
+		grad += 2*lamda*w
 		# L1
-		grad += 2*lamda*np.sign(w)
+		# grad += 2*lamda*np.sign(w)
 		w = w + lr*grad
 		len_weight[lamda].append(np.linalg.norm(w))
 
