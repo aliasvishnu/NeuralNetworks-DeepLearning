@@ -29,11 +29,11 @@ def error(trnY, y):
     return -1*err/len(trnY)
 
 
-valIndices = np.random.choice(len(trnX), 2000)
-nonValIndices = [x for x in range(len(trnX)) if x not in valIndices]
 
 trnX = np.array([feat(trainX, i) for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 8])/256.0
 trnY = np.array([1 if trainY[i] == 2 else 0 for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 8])
+valIndices = np.random.choice(len(trnX), 2000)
+nonValIndices = [x for x in range(len(trnX)) if x not in valIndices]
 
 valX = trnX[valIndices]
 valY = trnY[valIndices]
