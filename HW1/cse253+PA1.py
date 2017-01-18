@@ -65,13 +65,13 @@ def accuracy(y, y_):
 err = [[], [], []]
 acc = [[], [], []]
 
-lr = 0.0001
+lr = 0.001
 w = (np.random.rand(10, 785)-0.5)
 w_past = np.zeros((4, 10, 785))
 count = 0
 past_loss = 0
 
-for i in range(10):
+for i in range(100):
     print i
     y = softmax(np.dot(trnX,np.transpose(w)))
     loss = error(trnY, y)
@@ -96,9 +96,9 @@ for i in range(10):
     w = w + lr*grad
 
 w_f = w_past[0]
-print "Final testing error = ", err[1, -3]
-print "Final training error = ", err[0, -3]
-print "Final validation error = ", err[2, -3]
+print "Final testing error = ", acc[1][-3]
+print "Final training error = ", acc[0][-3]
+print "Final validation error = ", acc[2][-3]
 
 plt.plot([x for x in range(len(err[0]))], err[0], label = "train")
 plt.plot([x for x in range(len(err[1]))], err[1], label = "test")
