@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -48,6 +49,96 @@ Here in this project we have implemented the famous Logistic Regression which is
 \begin{verbatim}
 Neural Networks, Logistic Regression, Softmax Regression
 \end{verbatim}
+\section{Derivation of Gradient for Logistic Regression}
+We will derive the gradient for logistic regression by using the following predefined variables given in the document.
+
+Given:
+\begin{center}
+	$y^n=\cfrac{1}{1+exp(-w^T x^n)}$(Sigmoid function)\\
+    \hfill\break
+    $E(w) = -\sum_N t^n lny^n + (1-t^n) ln(1-y^n)$\\
+    \hfill\break
+\end{center}
+To Prove:
+\begin{center}
+    -$\cfrac{\partial E^n(w)}{\partial w_j} = (t^n-y^n)x^n_j $\\
+    \hfill\break
+\end{center}
+\begin{center}
+Let's recall the properties of Sigmoid Function, if $\sigma(x)$ is a sigmoid function then following two properties hold:\\
+\hfill\break
+1) $\sigma(x)=1-\sigma(-x)$\\
+\hfill\break
+2) $\sigma'(x)=\sigma(x)\sigma(-x)$\\
+\hfill\break
+\end{center}
+Derivation:
+\begin{center}
+$E^n(w) = -(t^n lny^n + (1-t^n) ln(1-y^n))$\\
+\hfill\break
+\hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_j} = -(\cfrac{t^n}{y^n} - \cfrac{1-t^n}{1-y^n})\cfrac{\partial y^n}{\partial w_j}$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_j} = -(\cfrac{t^n-y^n}{y^n(1-y^n)})\cfrac{\partial y^n}{\partial w_j}$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_j} = -(\cfrac{t^n-y^n}{y^n(1-y^n)})y^n(1-y^n)\cfrac{\partial w^Tx}{\partial w_j}$(Properties of Sigmoid)\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_j} = -(t^n-y^n)\cfrac{\partial w^Tx^n}{\partial w_j}$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_j} = -(t^n-y^n)x^n_j$\\
+    \hfill\break
+    Hence Proved 
+
+\end{center}
+\section{Derivation of Gradient for Softmax Regression}
+We will derive the gradient for softmax regression by using the following predefined variables given in the document.
+
+Given:
+\begin{center}
+	$y_k^n = \cfrac{exp(a_{k}^n)}{\sum_k' exp(a_k'^n)}$\\
+    \hfill\break
+$a_{k}^n = w_k^T x^n$\\
+\hfill\break
+$E = −\sum_n \sum_{k=1}^{c} t^n_k ln(y_k^n)$
+\end{center}
+To Prove:
+\begin{center}
+    -$\cfrac{\partial E^n(w)}{\partial w_j^k} = (t^n_k-y^n_k)x^n_j $\\
+    \hfill\break
+\end{center}
+Derivation:
+\begin{center}
+$E^n(w) = -\sum_{k'=1}^{c} t^n_{k'} ln(y_{k'}^n)$\\
+\hfill\break
+\hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -\sum_{k'=1}^{c}\cfrac{\partial(t^n_{k'}ln(exp(w_{k'}^Tx^n))-t^n_{k'}ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
+	\hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -\sum_{k'=1}^{c}\cfrac{\partial(t^n_{k'}w_{k'}^Tx^n-t^n_{k'}ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\sum_{k'=1}^{c}\cfrac{\partial (t^n_{k'}ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{\partial (ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{exp(w_k^Tx^n)}{\sum_{k''}exp(w_{k''}^Tx^n))}x^n_j$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-y_k^nx^n_j$\\
+    \hfill\break
+    \hfill\break
+$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -(t^n_k-y_k^n)x^n_j$\\
+    \hfill\break
+    Hence Proved 
+
+\end{center}
+
 \section{Logistic Regression}
 Although we consider logistic regression to be a classification technique, it is called "regression" because it is used to fit a continuous variable: the probability of the category, given the data. Logistic regression can be modeled as using a single neuron reading in an input vector (1,{\sl x}) $\in \mathbb{R}^{d+1}$ and parameterized by weight vector {\sl w} $\in \mathbb{R}^{d+1}$ . d is the dimensionality of the input, and we tack on a "1" at the beginning for a bias parameter, $w_0$ . The neuron outputs the probability that x is a member of class $C_1$.\\
 \begin{center}
