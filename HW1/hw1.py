@@ -28,9 +28,9 @@ def error(trnY, y, lamda):
         err += (1-trnY[i])*np.log(1-y[i])
     err = -1*err/len(trnY)
     # L2 regularization
-    err += lamda * np.linalg.norm(w)**2
+    # err += lamda * np.linalg.norm(w)**2
     # L1 regularization
-    # err += lamda * np.sum(np.abs(w))
+    err += lamda * np.sum(np.abs(w))
     return err
 
 trnX = np.array([feat(trainX, i) for i in range(trainX.shape[0]) if trainY[i] == 2 or trainY[i] == 3])/256.0
@@ -49,7 +49,8 @@ tstY = np.array([1 if testY[i] == 2 else 0 for i in range(testX.shape[0]) if tes
 
 len_weight = {}
 lam_acc = {}
-lamdas = [0.01, 0.001, 0.0001, 0.0001]
+lam_weights = {}
+lamdas = [0.01, 0.001, 0.0001, 0.00001]
 
 for lamda in lamdas:
 	len_weight[lamda] = []
@@ -95,18 +96,19 @@ for lamda in lamdas:
 		
 		grad = np.dot((trnY-y), trnX)
 		# L2
-		grad += 2*lamda*w
-		# # L1
-		# grad += 2*lamda*np.sign(w)
+		# grad += 2*lamda*w
+		# L1
+		grad += 2*lamda*np.sign(w)
 		w = w + lr*grad
 		len_weight[lamda].append(np.linalg.norm(w))
 
 	w_f = w_past[0]
+	lam_weights[lamda] = w_f[1:].reshape(28, 28)
 	tst_prediction = sigmoid(np.dot(tstX, w_f))
 	tst_cost = error(tstY, sigmoid(np.dot(tstX, w_f)), lamda)
 	tst_prediction[tst_prediction > 0.5] = 1
 	tst_prediction[tst_prediction <= 0.5] = 0
-	lam_acc[lamda] = np.mean(np.abs(tstY - tst_prediction))
+	lam_acc[lamda] = (1-np.mean(np.abs(tstY - tst_prediction)))*100
 	print "[Classification error = ", lam_acc[lamda],", Loss = ", tst_cost, "]"
 
 	trn_acc = np.array(trn_acc)
@@ -132,11 +134,23 @@ plt.legend(loc='lower right', shadow=True)
 plt.show()
 
 for key in len_weight.keys():
-	plt.plot([x for x in range(len(len_weight[key]))], len_weight[key], label = "w_len," + str(lamda))
+	plt.plot([x for x in range(len(len_weight[key]))], len_weight[key], label = "w_len," + str(key))
 
 plt.xlabel("Iterations")
 plt.ylabel("w_len")
+plt.legend(loc='lower right', shadow=True)
 plt.show()
+
+# plt.plot([np.log10(x) for x in lam_acc.keys()], [lam_acc[key] for key in lam_acc.keys()])
+plt.scatter([np.log10(x) for x in lam_acc.keys()], [lam_acc[key] for key in lam_acc.keys()])
+plt.xlabel("Log Lamda")
+plt.ylabel("Classification Accuracy")
+plt.show()
+
+for lam in lamdas:
+	plt.imshow(lam_weights[lam], cmap = 'Greys')
+	plt.title(str(lam))
+	plt.show()
 
 # plt.imshow(eightimg, cmap= 'Greys')
 # plt.show()
