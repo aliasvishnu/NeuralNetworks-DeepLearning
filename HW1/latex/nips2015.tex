@@ -5,6 +5,9 @@
 \usepackage{graphicx}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -43,12 +46,6 @@ A53201624 \\
 Here in this project we have implemented the famous Logistic Regression which is a two class classifier and its extension Softmax Regression which is a multiclass classifier. Both of these methods are trained and tested on famous handwritten MNIST dataset via gradient descent. We used the first 20000 data points as our training set out of which we have kept the 10 percent i.e. 2000 as our hold out set. On training our system we have tested on the first 2000 test data points so as to evaluate our work. On using the Logistic Regression, we have attained an accuracy of " " while classifying 2 vs 3 and an accuracy " " while classifying 2 vs 8. On applying 10 way classification, we get an accuracy of " ". To enhance classification and generalization we have used regularization as well. 
 \end{abstract}
 
-\section{Keywords}
-%% Your NIPS paper can be submitted with any of the following keywords (more than one keyword is possible for each paper):
-
-\begin{verbatim}
-Neural Networks, Logistic Regression, Softmax Regression
-\end{verbatim}
 \section{Derivation of Gradient for Logistic Regression}
 We will derive the gradient for logistic regression by using the following predefined variables given in the document.
 
@@ -124,7 +121,9 @@ $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -\sum_{k'=1}^{c}\cfrac{\partial(t^n_
 $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\sum_{k'=1}^{c}\cfrac{\partial (t^n_{k'}ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
     \hfill\break
     \hfill\break
-$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{\partial (ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
+   Only one $t_{k'}$ is 1, all others are 0s.\\
+    \hfill\break
+ $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{\partial (ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
     \hfill\break
     \hfill\break
 $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{exp(w_k^Tx^n)}{\sum_{k''}exp(w_{k''}^Tx^n))}x^n_j$\\
@@ -140,53 +139,47 @@ $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -(t^n_k-y_k^n)x^n_j$\\
 \end{center}
 
 \section{Logistic Regression}
-Although we consider logistic regression to be a classification technique, it is called "regression" because it is used to fit a continuous variable: the probability of the category, given the data. Logistic regression can be modeled as using a single neuron reading in an input vector (1,{\sl x}) $\in \mathbb{R}^{d+1}$ and parameterized by weight vector {\sl w} $\in \mathbb{R}^{d+1}$ . d is the dimensionality of the input, and we tack on a "1" at the beginning for a bias parameter, $w_0$ . The neuron outputs the probability that x is a member of class $C_1$.\\
+Logistic regression can be modeled as using a single neuron reading in an input vector (1,{\sl x}) $\in \mathbb{R}^{d+1}$ and parameterized by weight vector {\sl w} $\in \mathbb{R}^{d+1}$ . d is the dimensionality of the input, and we tack on a "1" at the beginning for a bias parameter, $w_0$ . The neuron outputs the probability that x is a member of class $C_1$.\\
 \begin{center}
-P $(x \in C_1 |x) = \frac{1}{1+exp(-w^T x)}$\\
-P $(x \in C_2 |x)$ = 1 − P$(x \in C_1 |x)$
+P $(x \in C_1 |x) = \cfrac{1}{1+exp(-w^T x)}$\\
+\hfill\break
+\hfill\break
+P $(x \in C_2 |x)$ = 1 − P$(x \in C_1 |x)$\\
+\hfill\break
 \end{center}
-where g w (x) simply notes that the function g is parameterized by w. Note we identify the output y n of the "network"
-for a particular example, x n , with g w (x n ), i.e., y n = g w (x n ). With the hypothesis function defined, we now use
-the cross entropy loss function (Equation 3) for two categories over our training examples. This equation measures
-how well our hypothesis function g does over the N data points,
-E(w) = −
-N
-X
-{t n ln y n + (1 − t n ) ln(1 − y n )}.
-(3)
-n=1
-Here, t n is the target or teaching signal for example n. Our goal is to optimize this cost function via gradient
-descent. This cost function is minimized at 0 when t n = y n for all n. One issue with this cost function is that it
-depends on the number of training examples. For reporting purposes in this assignment, a more convenient measure
-is the average error:
-E(w) = −
-N
-1 X n
-{t ln y n + (1 − t n ) ln(1 − y n )}.
+
+Cross entropy loss function for two categories over the training examples is given as following.\\
+
+\begin{center}
+$E^n(w) = -(t^n lny^n + (1-t^n) ln(1-y^n))$\\
+\hfill\break
+\hfill\break
+\end{center}
+
+Here, $t^n$ is the target or teaching signal for example n. Our goal is to optimize this cost function via gradient descent. This cost function is minimized at 0 when $t^n = y^n$ for all n.
 \subsection{Introduction}
 Using the gradient derived for Logistic Regression cross entropy loss, we will first use gradient descent to classify for categories: 2's and 3's, 2's and 8's.  
 
-Now, using the gradient derived for Logistic Regression cross entropy loss, use gradient descent to classify x ∈ R 785 (there is one extra dimension for the bias term) for two categories: 2’s and 3’s. The target is 1 if the input is from the "2" category and 0 if it is from the other category. 
-\subsection{Method}
-\subsection{Results and Discussion}
+We have taken the data from the famous MNIST handwritten data, of which we used the first 20000 as our training data set, and 2000 from the testing data set. Out of the training data set we have excluded 2000 data points for the hold out set.\\
 
+\subsection{Results and Discussion}
 We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 data set and the results are found to be quite impressive. Following are the graphs plotted for them. Figure 1 and 2 shows the entropy and classification accuracy of 2 vs 3
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{plt_2vs3_accuracy.png}
 \end{center}
 \caption{Plot of accuracy in 2 vs 3.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{plt_2vs3_losses.png}
 \end{center}
 \caption{Plot of entropy in 2 vs 3.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{plt_2vs8_accuracy.png}
@@ -194,36 +187,151 @@ We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 
 \caption{Plot of accuracy in 2 vs 8.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{plt_2vs8_losses.png}
 \end{center}
 \caption{Plot of losses in 2 vs 8.}
 \end{figure}
-
-\begin{figure}[h]
+As the "hold-out" set is previously unseen, it acts as a good replacement for the testing data, as can be seen from the results.
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{2vs3-2vs8.png}
 \end{center}
-\caption{Sample figure caption.}
+\caption{Subtraction of 2 vs 3 Classifier and 2 vs 8 Classifier.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
-\includegraphics[width=\linewidth]{2vs3.png}
+\includegraphics[width=0.8\linewidth]{2vs3.png}
 \end{center}
-\caption{Sample figure caption.}
+\caption{2vs3.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=\linewidth]{2vs8.png}
+\includegraphics[width=0.8\linewidth]{2vs8.png}
 \end{center}
-\caption{Sample figure caption.}
+\caption{2 vs 8 Classifier weights as an image.}
 \end{figure}
+d) While a pattern is not clear from the image, the darker a cell in the image, the more those cells contribution towards two-ness in the image. The difference image must contain features (dark cells) which are neither in three nor in eight.
+
+\section{Regularization}
+Part b:
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/2vs3.png}
+	\caption{Training Accuracy with L1 regularization with different lambda.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/2vs3.png}
+	\caption{Training Accuracy on L2.}
+\end{subfigure}
+\end{figure}
+
+Part c:
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/2vs3w_len.png}
+    \caption{Length of weight vector on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=1.05\linewidth]{Red_L2/2vs3w_len.png}
+    \caption{Length of weight vector on L2.}
+\end{subfigure}
+\end{figure}
+
+Part d:
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/test.png}
+	\caption{Testing error vs log$\lambda$ on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/test.png}
+	\caption{Testing error vs log$\lambda$ on L2.}
+\end{subfigure}
+\end{figure}
+
+Part e:
+
+$lambda$=0.01
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Reg_L1/0_01.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L1.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_01.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L2.}
+\end{figure}
+
+$lambda$=0.001
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Reg_L1/0_001.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L1.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_001.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L2.}
+\end{figure}
+
+$lambda$=0.0001
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Reg_L1/0_0001.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L1.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_0001.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L2.}
+\end{figure}
+
+$lambda$=0.00001
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Reg_L1/0_00001.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L1.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_00001.png}
+\end{center}
+\caption{Testing error vs log$\lambda$ on L2.}
+\end{figure}
+
 
 \section{Softmax Regression}
 Softmax regression is the generalization of logistic regression for multiple (c) classes. Now given an input $x^n$ , softmax regression will output a vector $y^n$ , where each element, $y_k^n$ represents the probability that $x^n$ is in class k.\\
@@ -241,32 +349,30 @@ Again, taking the average of this over the number of training examples normalize
 
 Further information is distributed as section 3.1 contains the introduction to the problem, section 3.2 contains method used to solve the problem. Results ans Discussion is done in section 3.3 and 3.4 respectively.\\ 
 \subsection{Introduction}
-In this part of the problem, we have created a multi-class classifier which classifies a data point into 10 different classes. 
+In this part of the problem, we have created a multiclass classifier which classifies a data point into 10 different classes. We have taken the data from the famous MNIST handwritten data, of which we used the first 20000 as our training data set, and 2000 from the testing data set. Out of the training data set we have excluded 2000 data points for the hold out set.\\
+
 \subsection{Method}
 \subsection{Results and Discussion}
 
-\subsection{Tables}
+Here, as instructed in the part(a) we have used a hold out set and Regularization in the softmax regression problem so as to classify handwritten data set in 10 classes.
 
-All tables must be centered, neat, clean and legible. Do not use hand-drawn
-tables. The table number and title always appear before the table. See
-Table~\ref{sample-table}.
+Here the type of Regularization from which we received the maximum accuracy of hold out set was L2 and the value of $\lambda$ = 0.00001. Here We checked the method for other values of $\lambda$ as well mainly [0.1, 0.01, 0.001, 0.0001, 0.0000] with both L1 and L2 Regularization and found L2, 0.00001 to the most appropriate one.
 
-Place one line space before the table title, one line space after the table
-title, and one line space after the table. The table title must be lower case
-(except for first word and proper nouns); tables are numbered consecutively.
-
-\begin{table}[t]
-\caption{Sample table title}
-\label{sample-table}
+As asked in the part 6(b), following is the graph of loss function with $\lambda$=0.00001.
+\begin{figure}[H]
 \begin{center}
-\begin{tabular}{ll}
-\multicolumn{1}{c}{\bf PART}  &\multicolumn{1}{c}{\bf DESCRIPTION}
-\\ \hline \\
-Dendrite         &Input terminal \\
-Axon             &Output terminal \\
-Soma             &Cell body (contains cell nucleus) \\
-\end{tabular}
+\includegraphics[width=0.8\linewidth]{softmax/Entropy_vs_Iterations.png}
 \end{center}
-\end{table}
+\caption{Part 6(c):Entropy vs Iterations of Softmax Regression with $\lambda$=0.00001.}
+\end{figure}
+
+As asked in the part 6(c), following is the graph of classification accuracy with $\lambda$=0.00001.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{softmax/Classification_Accuracy.png}
+\end{center}
+\caption{Part 6(b):Classification Accuracy of Softmax Regression with $\lambda$=0.00001.}
+\end{figure}
 
 \end{document}
