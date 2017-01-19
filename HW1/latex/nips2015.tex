@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{float}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -120,7 +121,9 @@ $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -\sum_{k'=1}^{c}\cfrac{\partial(t^n_
 $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\sum_{k'=1}^{c}\cfrac{\partial (t^n_{k'}ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
     \hfill\break
     \hfill\break
-$\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{\partial (ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
+   Only one $t_{k'}$ is 1, all others are 0s.\\
+    \hfill\break
+ $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{\partial (ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
     \hfill\break
     \hfill\break
 $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{exp(w_k^Tx^n)}{\sum_{k''}exp(w_{k''}^Tx^n))}x^n_j$\\
@@ -158,26 +161,25 @@ Here, $t^n$ is the target or teaching signal for example n. Our goal is to optim
 Using the gradient derived for Logistic Regression cross entropy loss, we will first use gradient descent to classify for categories: 2's and 3's, 2's and 8's.  
 
 We have taken the data from the famous MNIST handwritten data, of which we used the first 20000 as our training data set, and 2000 from the testing data set. Out of the training data set we have excluded 2000 data points for the hold out set.\\
-\subsection{Method}
-\subsection{Results and Discussion}
 
+\subsection{Results and Discussion}
 We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 data set and the results are found to be quite impressive. Following are the graphs plotted for them. Figure 1 and 2 shows the entropy and classification accuracy of 2 vs 3
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{plt_2vs3_accuracy.png}
 \end{center}
 \caption{Plot of accuracy in 2 vs 3.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{plt_2vs3_losses.png}
 \end{center}
 \caption{Plot of entropy in 2 vs 3.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{plt_2vs8_accuracy.png}
@@ -185,7 +187,7 @@ We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 
 \caption{Plot of accuracy in 2 vs 8.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{plt_2vs8_losses.png}
@@ -193,7 +195,7 @@ We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 
 \caption{Plot of losses in 2 vs 8.}
 \end{figure}
 As the "hold-out" set is previously unseen, it acts as a good replacement for the testing data, as can be seen from the results.
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{2vs3-2vs8.png}
@@ -201,7 +203,7 @@ As the "hold-out" set is previously unseen, it acts as a good replacement for th
 \caption{Subtraction of 2 vs 3 Classifier and 2 vs 8 Classifier.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 %\framebox[4.0in]{$\;$}
 \includegraphics[width=0.8\linewidth]{2vs3.png}
@@ -209,57 +211,57 @@ As the "hold-out" set is previously unseen, it acts as a good replacement for th
 \caption{2vs3.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{2vs8.png}
 \end{center}
 \caption{2 vs 8 Classifier weights as an image.}
 \end{figure}
 d) While a pattern is not clear from the image, the darker a cell in the image, the more those cells contribution towards two-ness in the image. The difference image must contain features (dark cells) which are neither in three nor in eight.
+
 \section{Regularization}
-
 Part b:
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Reg_L1/2vs3.png}
-\end{center}
-\caption{Training Accuracy with L1 regularization with different lambda.}
-\end{figure}
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Red_L2/2vs3.png}
-\end{center}
-\caption{Training Accuracy on L2.}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/2vs3.png}
+	\caption{Training Accuracy with L1 regularization with different lambda.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/2vs3.png}
+	\caption{Training Accuracy on L2.}
+\end{subfigure}
 \end{figure}
 
 Part c:
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Reg_L1/2vs3w_len.png}
-\end{center}
-\caption{Length of weight vector on L1.}
-\end{figure}
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Red_L2/2vs3w_len.png}
-\end{center}
-\caption{Length of weight vector on L2.}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/2vs3w_len.png}
+    \caption{Length of weight vector on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=1.05\linewidth]{Red_L2/2vs3w_len.png}
+    \caption{Length of weight vector on L2.}
+\end{subfigure}
 \end{figure}
 
 Part d:
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\begin{subfigure}{.6\textwidth}
+\begin{subfigure}{.5\textwidth}
 	\centering
-	\includegraphics[width=0.7\linewidth]{Reg_L1/test.png}
+	\includegraphics[width=1.05\linewidth]{Reg_L1/test.png}
 	\caption{Testing error vs log$\lambda$ on L1.}
 \end{subfigure}%
-\begin{subfigure}{.6\textwidth}
+\begin{subfigure}{.5\textwidth}
     \centering
-	\includegraphics[width=0.7\linewidth]{Red_L2/test.png}
+	\includegraphics[width=1.05\linewidth]{Red_L2/test.png}
 	\caption{Testing error vs log$\lambda$ on L2.}
 \end{subfigure}
 \end{figure}
@@ -268,14 +270,14 @@ Part e:
 
 $lambda$=0.01
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Reg_L1/0_01.png}
 \end{center}
 \caption{Testing error vs log$\lambda$ on L1.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Red_L2/2vs30_01.png}
 \end{center}
@@ -284,14 +286,14 @@ $lambda$=0.01
 
 $lambda$=0.001
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Reg_L1/0_001.png}
 \end{center}
 \caption{Testing error vs log$\lambda$ on L1.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Red_L2/2vs30_001.png}
 \end{center}
@@ -300,14 +302,14 @@ $lambda$=0.001
 
 $lambda$=0.0001
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Reg_L1/0_0001.png}
 \end{center}
 \caption{Testing error vs log$\lambda$ on L1.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Red_L2/2vs30_0001.png}
 \end{center}
@@ -316,14 +318,14 @@ $lambda$=0.0001
 
 $lambda$=0.00001
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Reg_L1/0_00001.png}
 \end{center}
 \caption{Testing error vs log$\lambda$ on L1.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{Red_L2/2vs30_00001.png}
 \end{center}
@@ -348,6 +350,7 @@ Again, taking the average of this over the number of training examples normalize
 Further information is distributed as section 3.1 contains the introduction to the problem, section 3.2 contains method used to solve the problem. Results ans Discussion is done in section 3.3 and 3.4 respectively.\\ 
 \subsection{Introduction}
 In this part of the problem, we have created a multiclass classifier which classifies a data point into 10 different classes. We have taken the data from the famous MNIST handwritten data, of which we used the first 20000 as our training data set, and 2000 from the testing data set. Out of the training data set we have excluded 2000 data points for the hold out set.\\
+
 \subsection{Method}
 \subsection{Results and Discussion}
 
@@ -356,7 +359,7 @@ Here, as instructed in the part(a) we have used a hold out set and Regularizatio
 Here the type of Regularization from which we received the maximum accuracy of hold out set was L2 and the value of $\lambda$ = 0.00001. Here We checked the method for other values of $\lambda$ as well mainly [0.1, 0.01, 0.001, 0.0001, 0.0000] with both L1 and L2 Regularization and found L2, 0.00001 to the most appropriate one.
 
 As asked in the part 6(b), following is the graph of loss function with $\lambda$=0.00001.
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{softmax/Entropy_vs_Iterations.png}
 \end{center}
@@ -365,7 +368,7 @@ As asked in the part 6(b), following is the graph of loss function with $\lambda
 
 As asked in the part 6(c), following is the graph of classification accuracy with $\lambda$=0.00001.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{softmax/Classification_Accuracy.png}
 \end{center}
