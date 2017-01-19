@@ -49,24 +49,25 @@ Here in this project we have implemented the famous Logistic Regression which is
 \section{Derivation of Gradient for Logistic Regression}
 We will derive the gradient for logistic regression by using the following predefined variables given in the document.
 
+
 Given:
 \begin{center}
 	$y^n=\cfrac{1}{1+exp(-w^T x^n)}$(Sigmoid function)\\
     \hfill\break
-    $E(w) = -\sum_N t^n lny^n + (1-t^n) ln(1-y^n)$\\
-    \hfill\break
+    $E(w) = -\sum_N t^n lny^n + (1-t^n) ln(1-y^n)$
+    \hfill
 \end{center}
 To Prove:
 \begin{center}
-    -$\cfrac{\partial E^n(w)}{\partial w_j} = (t^n-y^n)x^n_j $\\
-    \hfill\break
+    $\cfrac{\partial E^n(w)}{\partial w_j} = -(t^n-y^n)x^n_j $\\
+    \hfill    
 \end{center}
 \begin{center}
-Let's recall the properties of Sigmoid Function, if $\sigma(x)$ is a sigmoid function then following two properties hold:\\
+Let's recall the properties of Sigmoid Function, if $\sigma(x)$ is a sigmoid function then following two properties hold:
 \hfill\break
-1) $\sigma(x)=1-\sigma(-x)$\\
+$\sigma(x)=1-\sigma(-x)$\\
 \hfill\break
-2) $\sigma'(x)=\sigma(x)\sigma(-x)$\\
+$\sigma'(x)=\sigma(x)\sigma(-x)$\\
 \hfill\break
 \end{center}
 Derivation:
@@ -104,8 +105,7 @@ $E = −\sum_n \sum_{k=1}^{c} t^n_k ln(y_k^n)$
 \end{center}
 To Prove:
 \begin{center}
-    -$\cfrac{\partial E^n(w)}{\partial w_j^k} = (t^n_k-y^n_k)x^n_j $\\
-    \hfill\break
+    -$\cfrac{\partial E^n(w)}{\partial w_j^k} = (t^n_k-y^n_k)x^n_j $\break\hfill
 \end{center}
 Derivation:
 \begin{center}
@@ -124,7 +124,6 @@ $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\sum_{k'=1}^{c}\cfrac{\p
    Only one $t_{k'}$ is 1, all others are 0s.\\
     \hfill\break
  $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{\partial (ln(\sum_{k''}exp(w_{k''}^Tx^n)))}{\partial w_{jk}}$\\
-    \hfill\break
     \hfill\break
 $\cfrac{\partial E^n(w)}{\partial w_{jk}} = -t^n_kx^n_j-\cfrac{exp(w_k^Tx^n)}{\sum_{k''}exp(w_{k''}^Tx^n))}x^n_j$\\
     \hfill\break
@@ -153,7 +152,6 @@ Cross entropy loss function for two categories over the training examples is giv
 \begin{center}
 $E^n(w) = -(t^n lny^n + (1-t^n) ln(1-y^n))$\\
 \hfill\break
-\hfill\break
 \end{center}
 
 Here, $t^n$ is the target or teaching signal for example n. Our goal is to optimize this cost function via gradient descent. This cost function is minimized at 0 when $t^n = y^n$ for all n.
@@ -166,61 +164,66 @@ We have taken the data from the famous MNIST handwritten data, of which we used 
 We have calculated the entropy and classification accuracy of 2 vs 3 and 2 vs 8 data set and the results are found to be quite impressive. Following are the graphs plotted for them. Figure 1 and 2 shows the entropy and classification accuracy of 2 vs 3
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{plt_2vs3_accuracy.png}
-\end{center}
-\caption{Plot of accuracy in 2 vs 3.}
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{plt_2vs3_accuracy.png}
+	\caption{Plot of accuracy in 2 vs 3.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{plt_2vs3_losses.png}
+	\caption{Plot of entropy in 2 vs 3.}
+   \end{subfigure}
 \end{figure}
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{plt_2vs3_losses.png}
-\end{center}
-\caption{Plot of entropy in 2 vs 3.}
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{plt_2vs8_accuracy.png}
+	\caption{Plot of accuracy in 2 vs 8.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{plt_2vs8_losses.png}
+	\caption{Plot of losses in 2 vs 8.}
+\end{subfigure}
 \end{figure}
 
-\begin{figure}[H]
-\begin{center}
-%\framebox[4.0in]{$\;$}
-\includegraphics[width=0.8\linewidth]{plt_2vs8_accuracy.png}
-\end{center}
-\caption{Plot of accuracy in 2 vs 8.}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-%\framebox[4.0in]{$\;$}
-\includegraphics[width=0.8\linewidth]{plt_2vs8_losses.png}
-\end{center}
-\caption{Plot of losses in 2 vs 8.}
-\end{figure}
 As the "hold-out" set is previously unseen, it acts as a good replacement for the testing data, as can be seen from the results.
 \begin{figure}[H]
-\begin{center}
-%\framebox[4.0in]{$\;$}
-\includegraphics[width=0.8\linewidth]{2vs3-2vs8.png}
-\end{center}
-\caption{Subtraction of 2 vs 3 Classifier and 2 vs 8 Classifier.}
+\centering
+\begin{subfigure}{.5\textwidth}	
+	\centering
+	\includegraphics[width=1.05\linewidth]{2vs3-2vs8.png}
+	\caption{Subtraction of 2 vs 3 Classifier and 2 vs 8 Classifier.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{2vs3.png}
+	\caption{2vs3.}
+   \end{subfigure}
 \end{figure}
 
 \begin{figure}[H]
 \begin{center}
-%\framebox[4.0in]{$\;$}
-\includegraphics[width=0.8\linewidth]{2vs3.png}
-\end{center}
-\caption{2vs3.}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{2vs8.png}
+\includegraphics[width=0.5\linewidth]{2vs8.png}
 \end{center}
 \caption{2 vs 8 Classifier weights as an image.}
 \end{figure}
 d) While a pattern is not clear from the image, the darker a cell in the image, the more those cells contribution towards two-ness in the image. The difference image must contain features (dark cells) which are neither in three nor in eight.
 
 \section{Regularization}
-Part b:
+
+For L2:
+-$\cfrac{\partial E(w)}{\partial w_j} = \sum_n(t^n-y^n)x^n_j + \sum_{ij}  2\lambda w_{ij}$\\
+\hfill\break
+For L1:   
+-$\cfrac{\partial E^n(w)}{\partial w_j} = \sum_n(t^n-y^n)x^n_j + \sum_{ij} \lambda|w_{ij}|/w_{ij}$\\
+      
+b) From our training experience, they are pretty much similar in performance.
+      
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -231,11 +234,12 @@ Part b:
 \begin{subfigure}{.5\textwidth}
     \centering
 	\includegraphics[width=1.05\linewidth]{Red_L2/2vs3.png}
-	\caption{Training Accuracy on L2.}
+	\caption{Training Accuracy on L2 regularization with different lambda.}
 \end{subfigure}
 \end{figure}
 
-Part c:
+c) Ideally, as training progresses, the norm of the weights must be higher if lamda is lower. We see this is the case with L2, however, in our case the L1 showed an anomaly, with  the red line coming above the others. This will not be the case if the initialization is kept same.
+     
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -250,8 +254,8 @@ Part c:
 \end{subfigure}
 \end{figure}
 
-Part d:
-
+ d) For L1 regularization, lamda = 0.001 gives best test accuracy. For L2 regularization, again, lamda = 0.001 gives best test accuracy. Both cases approx 98%.
+     
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -266,78 +270,76 @@ Part d:
 \end{subfigure}
 \end{figure}
 
-Part e:
-
+ e) 	For L2 regularization case, we see a bunch of dark cells together in lower left corner, getting most darkest in the best case. For L1, we see dark cells interspersed as expected. L1 makes the model sparse, thus many cells get lighter. Also consistent with L2, as we expect contribution from a lot more sources than L1.
 $lambda$=0.01
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Reg_L1/0_01.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L1.}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_01.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L2.}
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/0_01.png}
+	\caption{Testing error vs log$\lambda$ on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+ 	\centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/2vs30_01.png}
+	\caption{Testing error vs log$\lambda$ on L2.}
+\end{subfigure}
 \end{figure}
 
 $lambda$=0.001
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Reg_L1/0_001.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L1.}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_001.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L2.}
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/0_001.png}
+	\caption{Testing error vs log$\lambda$ on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/2vs30_001.png}
+	\caption{Testing error vs log$\lambda$ on L2.}
+\end{subfigure}
 \end{figure}
 
 $lambda$=0.0001
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Reg_L1/0_0001.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L1.}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_0001.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L2.}
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/0_0001.png}
+	\caption{Testing error vs log$\lambda$ on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/2vs30_0001.png}
+	\caption{Testing error vs log$\lambda$ on L2.}
+\end{subfigure}
 \end{figure}
 
 $lambda$=0.00001
-
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Reg_L1/0_00001.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L1.}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{Red_L2/2vs30_00001.png}
-\end{center}
-\caption{Testing error vs log$\lambda$ on L2.}
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Reg_L1/0_00001.png}
+	\caption{Testing error vs log$\lambda$ on L1.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=1.05\linewidth]{Red_L2/2vs30_00001.png}
+	\caption{Testing error vs log$\lambda$ on L2.}
+\end{subfigure}
 \end{figure}
 
 
 \section{Softmax Regression}
-Softmax regression is the generalization of logistic regression for multiple (c) classes. Now given an input $x^n$ , softmax regression will output a vector $y^n$ , where each element, $y_k^n$ represents the probability that $x^n$ is in class k.\\
+Softmax regression is the generalization of logistic regression for multiple (c) classes. Now given an input $x^n$ , softmax regression will output a vector $y^n$ , where each element, $y_k^n$ represents the probability that $x^n$ is in class k.
 \begin{center}
 $y_k^n = \frac{exp(a_{k}^n)}{\sum_k' exp(a_k'^n)}$\\
-$a_{k}^n = w_k^T x^n$\\
+$a_{k}^n = w_k^T x^n$
 \end{center}
 
 Here, $a_{k}^n$ is called the net input to output unit $y_k$. Note each output has its own weight vector $w_k$ . With our model defined, we now define the cross-entropy cost function for multiple categories:
@@ -347,11 +349,10 @@ $E = −\sum_n \sum_{k=1}^{c} t^n_k ln(y_k^n)$
 
 Again, taking the average of this over the number of training examples normalizes this error over different training set sizes.
 
-Further information is distributed as section 3.1 contains the introduction to the problem, section 3.2 contains method used to solve the problem. Results ans Discussion is done in section 3.3 and 3.4 respectively.\\ 
+Further information is distributed as section 3.1 contains the introduction to the problem. Results and Discussion is done in section 3.2.
 \subsection{Introduction}
-In this part of the problem, we have created a multiclass classifier which classifies a data point into 10 different classes. We have taken the data from the famous MNIST handwritten data, of which we used the first 20000 as our training data set, and 2000 from the testing data set. Out of the training data set we have excluded 2000 data points for the hold out set.\\
+In this part of the problem, we have created a multiclass classifier which classifies a data point into 10 different classes. We have taken the data from the famous MNIST handwritten data, of which we used the first 20000 as our training data set, and 2000 from the testing data set. Out of the training data set we have excluded 2000 data points for the hold out set. We haven't done mini-batch gradient descent because we got convergence over about 400 iterations.
 
-\subsection{Method}
 \subsection{Results and Discussion}
 
 Here, as instructed in the part(a) we have used a hold out set and Regularization in the softmax regression problem so as to classify handwritten data set in 10 classes.
@@ -375,4 +376,10 @@ As asked in the part 6(c), following is the graph of classification accuracy wit
 \caption{Part 6(b):Classification Accuracy of Softmax Regression with $\lambda$=0.00001.}
 \end{figure}
 
+\section{Contribution}
+\subsection{Sriram Ravindran}
+I wrote the code for Logistic Regression and executed it with the data from the MNIST data set. Along with training the 2vs3 and 2vs8 dataset, I plotted the accuracy and loss graphs. Apart from Logistic Regression and Softmax Regression all the other parts such as Derivation, Regularization, creating latex report in NIPS format has been done by both me and my partner together so as to divide the load equally among ourselves.\\
+
+\subsection{Ojas Gupta}
+I have written the code for Softmax Regression and executed it with the MNIST dataset. I trained the softmax regression to classify a given data point into one of the 10 classes. Logistic Regression part is done by my partner Sriram. All the remaining parts were distributed equally among us such as Derivations, regularization and report making as mentioned in the assignment.\\
 \end{document}
